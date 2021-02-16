@@ -3,10 +3,9 @@ class ActiveTime:
     def __init__(self, start_activity, stop_activity):
         self._start = start_activity
         self._stop = stop_activity
-        self._time_diff = stop_activity - start_activity
 
     def get_diff_time(self):
-        return self._time_diff
+        return self._stop - self._start
 
     def time_format(self, active_time):
         days = active_time.days
