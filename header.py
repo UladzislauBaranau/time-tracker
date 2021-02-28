@@ -8,4 +8,4 @@ def active_foreground():
 
     if active_foreground_window_title.value:
         return active_foreground_window_title.value
-    return "Empty Desktop"
+    return None
