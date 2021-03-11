@@ -32,10 +32,6 @@ class ActiveTime:
     def get_diff_time(self):
         return self._stop - self._start
 
-    @staticmethod
-    def get_time_interval(time_interval):
-        return CorrectTimeFormat(time_interval).serialize_time_interval()
+    def get_time_interval(self):
+        return CorrectTimeFormat(self.get_diff_time()).serialize_time_interval()
 
-    @staticmethod
-    def get_total_time(total_time):
-        return CorrectTimeFormat(total_time).serialize_total_time()
