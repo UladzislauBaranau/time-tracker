@@ -4,8 +4,8 @@ from datetime import datetime
 
 class Activity:
 
-    def __init__(self, title, start, stop):
-        self.title = title
+    def __init__(self, tab, start, stop):
+        self.tab = tab
         self.time_interval = ActiveTime(start, stop).get_diff_time()
 
     def active_time(self):
@@ -13,10 +13,10 @@ class Activity:
 
     def get_activity(self):
         return {
-            'title': self.title.decode('utf-8'),
-            'active sessions': [self.active_time()],
-            'last session time': self.active_time(),
-            'total time': self.time_interval
+            'active_tab': self.tab,
+            'active_sessions': [self.active_time()],
+            'last_active_session': self.active_time(),
+            'total_time': self.time_interval
         }
 
 
@@ -29,16 +29,16 @@ class ActivitiesStorage:
         self.storage.append(activity.get_activity())
 
     def update_activity(self, activity, time_activity: Activity):
-        activity['active sessions'].append(time_activity.active_time())
-        activity['last active session'] = time_activity.active_time()
-        activity['total time'] += time_activity.time_interval
+        activity['active_sessions'].append(time_activity.active_time())
+        activity['last_active_session'] = time_activity.active_time()
+        activity['total_time'] += time_activity.time_interval
 
     def get_current_activities(self):
         activities = []
         for activity in self.storage:
             tmp_dict = {}
             for key, value in activity.items():
-                if key == 'title' or key == 'active sessions':
+                if key == 'active_tab' or key == 'active_sessions':
                     tmp_dict[key] = value
             activities.append(tmp_dict)
         return activities
@@ -54,9 +54,9 @@ class ActivitiesStorage:
         for activity in self.storage:
             tmp_dict = {}
             for key, value in activity.items():
-                if key == 'title' or key == 'last active session':
+                if key == 'active_tab' or key == 'last_active_session':
                     tmp_dict[key] = value
-                if key == 'total time':
+                if key == 'total_time':
                     tmp_dict[key] = CorrectTimeFormat(value).serialize_total_time()
             activities.append(tmp_dict)
         return activities
