@@ -1,44 +1,51 @@
-from activetitle import get_active_foreground_title  # for Linux
-from activetime import ActiveTime
 from activity import Activity, ActivitiesStorage
 from datetime import datetime
-import time
+from flask import Flask, request
+from flask_cors import CORS
 import json
 
+app = Flask(__name__)
+CORS(app)
 
+
+@app.route("/")
+def hello_server():
+    return 'Hello'
+
+
+active_tab_url = ''
+start_time = datetime.now()
+activities = ActivitiesStorage()
+
+
+@app.route("/", methods=['POST'])
 def main():
-    active_title = ''
-    start_time = datetime.now()
-    activities = ActivitiesStorage()
+    global active_tab_url, start_time, activities
+    req = request.get_json()
+    current_tab_url = req['CurrentURL']
+    # white regular expression for url - "parser_url"
+    new_active_tab_url = current_tab_url
+    is_first_time_activity = True
 
-    while True:
-        new_active_title = get_active_foreground_title()
-        is_first_time_activity = True
-
-        if active_title != new_active_title:
-            stop_time = datetime.now()
-            active_time = ActiveTime(start_time, stop_time)
-            current_activity = Activity(active_title, start_time, stop_time)
-
-            if active_title:
-                print(f"title: {active_title.decode('utf-8')} \n"
-                      f"active time: {active_time.get_time_interval()}")
-                print()
-
-                for activity in activities.storage:
-                    if activity['title'] == current_activity.title:
-                        activities.update_activity(activity, current_activity)
-                        is_first_time_activity = False
-
-                if is_first_time_activity:
-                    activities.add_activity(current_activity)
-
-                with open('current_activities.json', 'w') as file:
-                    json.dump(activities.write_to_json_current_activities, file, ensure_ascii=False, indent=4)
-
-            active_title = new_active_title
-            start_time = datetime.now()
-        time.sleep(1)
+    if active_tab_url != new_active_tab_url:
+        stop_time = datetime.now()
+        current_activity = Activity(active_tab_url, start_time, stop_time)
+        if active_tab_url:
+            print('Tab has been changed')
+            for activity in activities.storage:
+                if activity['active_tab'] == current_activity.tab:
+                    activities.update_activity(activity, current_activity)
+                    is_first_time_activity = False
+            if is_first_time_activity:
+                activities.add_activity(current_activity)
+            with open('activities_info.json', 'w') as file:
+                json.dump(activities.write_to_json_current_activities, file, ensure_ascii=False, indent=4)
+        active_tab_url = new_active_tab_url
+        start_time = datetime.now()
+    return req
 
 
-main()
+if __name__ == '__main__':
+    app.run()  # app run on the local server 'http://localhost:5000/'
+    with open('activities_info.json', 'w') as file:
+        json.dump(activities.write_to_json_activities_info, file, ensure_ascii=False, indent=4)
