@@ -1,5 +1,6 @@
 from activity import Activity, ActivitiesStorage
 from datetime import datetime
+from urllib.parse import urlparse
 from flask import Flask, request
 from flask_cors import CORS
 import json
@@ -13,6 +14,11 @@ def hello_server():
     return 'Hello'
 
 
+def url_parse(url):
+    url = urlparse(url)
+    return url.scheme + '://' + url.netloc + '/'
+
+
 active_tab_url = ''
 start_time = datetime.now()
 activities = ActivitiesStorage()
@@ -23,13 +29,13 @@ def main():
     global active_tab_url, start_time, activities
     req = request.get_json()
     current_tab_url = req['CurrentURL']
-    # white regular expression for url - "parser_url"
-    new_active_tab_url = current_tab_url
+    new_active_tab_url = url_parse(current_tab_url)
     is_first_time_activity = True
 
     if active_tab_url != new_active_tab_url:
         stop_time = datetime.now()
         current_activity = Activity(active_tab_url, start_time, stop_time)
+
         if active_tab_url:
             print('Tab has been changed')
             for activity in activities.storage:
@@ -42,6 +48,7 @@ def main():
                 json.dump(activities.write_to_json_current_activities, file, ensure_ascii=False, indent=4)
         active_tab_url = new_active_tab_url
         start_time = datetime.now()
+
     return req
 
 
