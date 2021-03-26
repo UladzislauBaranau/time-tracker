@@ -24,6 +24,7 @@ class ActivitiesStorage:
 
     def __init__(self):
         self.storage = []
+        self.start_activities = datetime.now()
 
     def add_activity(self, activity: Activity):
         self.storage.append(activity.get_activity())
@@ -64,5 +65,7 @@ class ActivitiesStorage:
     @property
     def write_to_json_activities_info(self):
         return {
-            f'START TIME {datetime.now().strftime("%Y.%m.%d %H:%M")}': self.get_activities_info()
+            'START ACTIVITIES': self.start_activities.strftime("%Y.%m.%d %H:%M"),
+            'ACTIVITIES INFORMATION': self.get_activities_info(),
+            'STOP ACTIVITIES': datetime.now().strftime("%Y.%m.%d %H:%M")
         }
