@@ -1,3 +1,9 @@
+class TimeError(Exception):
+
+    def __str__(self):
+        return 'Active session cannot be negative. Check the current time'
+
+
 class CorrectTimeFormat:
 
     def __init__(self, time):
@@ -28,10 +34,11 @@ class ActiveTime:
     def __init__(self, start, stop):
         self._start = start
         self._stop = stop
+        if self._start > self._stop:
+            raise TimeError
 
     def get_diff_time(self):
         return self._stop - self._start
 
     def get_time_interval(self):
         return CorrectTimeFormat(self.get_diff_time()).serialize_time_interval()
-
