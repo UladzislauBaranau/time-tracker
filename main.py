@@ -40,9 +40,9 @@ def main():
 
         if active_tab_url:
             print(
-                'Website has been changed \n'
-                f'Previous website: {active_tab_url} \n'
-                f'Active time: {active_time.get_time_interval()} \n'
+                '\nWebsite has been changed\n'
+                f'Previous website: {active_tab_url}\n'
+                f'Active time: {active_time.get_time_interval()}'
             )
             for activity in activities.storage:
                 if activity['active_tab'] == current_activity.tab:
@@ -53,6 +53,7 @@ def main():
             with open('activities_info.json', 'w') as file:
                 json.dump(activities.write_to_json_current_activities, file, ensure_ascii=False, indent=4)
 
+        print(f'\nCurrent website: {new_active_tab_url}\n')
         active_tab_url = new_active_tab_url
         start_time = datetime.now()
 

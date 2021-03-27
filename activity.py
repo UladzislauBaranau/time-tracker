@@ -52,15 +52,17 @@ class ActivitiesStorage:
 
     def get_activities_info(self):
         activities = []
-        for activity in self.storage:
-            tmp_dict = {}
-            for key, value in activity.items():
-                if key == 'active_tab' or key == 'last_active_session':
-                    tmp_dict[key] = value
-                if key == 'total_time':
-                    tmp_dict[key] = CorrectTimeFormat(value).serialize_total_time()
-            activities.append(tmp_dict)
-        return activities
+        if self.storage:
+            for activity in self.storage:
+                tmp_dict = {}
+                for key, value in activity.items():
+                    if key == 'active_tab' or key == 'last_active_session':
+                        tmp_dict[key] = value
+                    if key == 'total_time':
+                        tmp_dict[key] = CorrectTimeFormat(value).serialize_total_time()
+                activities.append(tmp_dict)
+            return activities
+        return ['No activities']
 
     @property
     def write_to_json_activities_info(self):
