@@ -1,4 +1,5 @@
 from activity import Activity, ActivitiesStorage
+from activetime import ActiveTime
 from datetime import datetime
 from urllib.parse import urlparse
 from flask import Flask, request
@@ -34,10 +35,15 @@ def main():
 
     if active_tab_url != new_active_tab_url:
         stop_time = datetime.now()
+        active_time = ActiveTime(start_time, stop_time)
         current_activity = Activity(active_tab_url, start_time, stop_time)
 
         if active_tab_url:
-            print('Tab has been changed')
+            print(
+                'Website has been changed \n'
+                f'Previous website: {active_tab_url} \n'
+                f'Active time: {active_time.get_time_interval()} \n'
+            )
             for activity in activities.storage:
                 if activity['active_tab'] == current_activity.tab:
                     activities.update_activity(activity, current_activity)
@@ -46,6 +52,7 @@ def main():
                 activities.add_activity(current_activity)
             with open('activities_info.json', 'w') as file:
                 json.dump(activities.write_to_json_current_activities, file, ensure_ascii=False, indent=4)
+
         active_tab_url = new_active_tab_url
         start_time = datetime.now()
 

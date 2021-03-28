@@ -47,7 +47,7 @@ class ActivitiesStorage:
     @property
     def write_to_json_current_activities(self):
         return {
-            'CURRENT ACTIVITIES': self.get_current_activities()
+            'CURRENT_ACTIVITIES': self.get_current_activities()
         }
 
     def get_activities_info(self):
@@ -65,7 +65,7 @@ class ActivitiesStorage:
     @property
     def write_to_json_activities_info(self):
         return {
-            'START ACTIVITIES': self.start_activities.strftime("%Y.%m.%d %H:%M"),
-            'ACTIVITIES INFORMATION': self.get_activities_info(),
-            'STOP ACTIVITIES': datetime.now().strftime("%Y.%m.%d %H:%M")
+            'START_ACTIVITIES': self.start_activities.strftime("%Y.%m.%d %H:%M"),
+            'ACTIVITIES_INFORMATION': self.get_activities_info(),
+            'STOP_ACTIVITIES': datetime.now().strftime("%Y.%m.%d %H:%M")
         }
