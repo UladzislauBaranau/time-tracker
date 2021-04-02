@@ -10,7 +10,7 @@ function sendCurrentURL() {
 
         var xhr = new XMLHttpRequest();
 
-        xhr.open('POST', 'http://127.0.0.1:5000/');
+        xhr.open('POST', 'http://127.0.0.1:5000/request');
         xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
 
         // occurs only when request cannot be executed
