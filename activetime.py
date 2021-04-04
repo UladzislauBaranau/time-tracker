@@ -2,7 +2,6 @@ from datetime import timedelta
 
 
 class TimeError(Exception):
-
     def __str__(self):
         return '\nSomething is wrong with your time. Check the current time\n'
 
@@ -37,7 +36,7 @@ class ActiveTime:
     def __init__(self, start, stop):
         self._start = start
         self._stop = stop
-        if self._start > self._stop or self._stop - self._start > timedelta(hours=5):
+        if self._start >= self._stop or self._stop - self._start > timedelta(hours=5):
             raise TimeError
 
     def get_diff_time(self):
