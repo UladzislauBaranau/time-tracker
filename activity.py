@@ -29,7 +29,8 @@ class ActivitiesStorage:
     def add_activity(self, activity: Activity):
         self.storage.append(activity.get_activity())
 
-    def update_activity(self, activity, time_activity: Activity):
+    @staticmethod
+    def update_activity(activity, time_activity: Activity):
         activity['active_sessions'].append(time_activity.active_time())
         activity['last_active_session'] = time_activity.active_time()
         activity['total_time'] += time_activity.time_interval
@@ -52,17 +53,17 @@ class ActivitiesStorage:
 
     def get_activities_info(self):
         activities = []
-        if self.storage:
-            for activity in self.storage:
-                tmp_dict = {}
-                for key, value in activity.items():
-                    if key == 'active_tab' or key == 'last_active_session':
-                        tmp_dict[key] = value
-                    if key == 'total_time':
-                        tmp_dict[key] = CorrectTimeFormat(value).serialize_total_time()
-                activities.append(tmp_dict)
-            return activities
-        return ['No activities']
+        if not self.storage:
+            return ['No activities']
+        for activity in self.storage:
+            tmp_dict = {}
+            for key, value in activity.items():
+                if key == 'active_tab' or key == 'last_active_session':
+                    tmp_dict[key] = value
+                if key == 'total_time':
+                    tmp_dict[key] = CorrectTimeFormat(value).serialize_total_time()
+            activities.append(tmp_dict)
+        return activities
 
     @property
     def write_to_json_activities_info(self):
