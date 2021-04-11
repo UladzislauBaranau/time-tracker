@@ -2,22 +2,9 @@ from activity import Activity, ActivitiesStorage
 from activetime import ActiveTime, TimeError
 from datetime import datetime
 from urllib.parse import urlparse
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import json
-
-app = Flask(__name__)
-CORS(app)
-
-
-@app.route("/")
-def hello_server():
-    return 'Hello'
-
-
-@app.route("/request")
-def request_server():
-    return 'Your request'
 
 
 def url_parse(url):
@@ -29,12 +16,20 @@ active_tab_url = ''
 start_time = datetime.now()
 activities = ActivitiesStorage()
 
+app = Flask(__name__)
+CORS(app)
+
+
+@app.route("/")
+def hello_server():
+    return 'Hello'
+
 
 @app.route("/request", methods=['POST'])
 def main():
     global active_tab_url, start_time, activities
     req = request.get_json()
-    current_tab_url = req['CurrentURL']
+    current_tab_url = req['currentURL']
     new_active_tab_url = url_parse(current_tab_url)
     is_first_time_activity = True
 
@@ -67,7 +62,7 @@ def main():
             start_time = datetime.now()
             active_tab_url = new_active_tab_url
 
-    return req
+    return jsonify(req)
 
 
 if __name__ == '__main__':
