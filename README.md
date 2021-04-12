@@ -1,2 +1,2 @@
-# time-tracker
-First python project
+# Time Tracker: tracks the time you spent on websites
+
