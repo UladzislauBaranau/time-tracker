@@ -8,14 +8,14 @@ class Activity:
         self.tab = tab
         self.time_interval = ActiveTime(start, stop).get_diff_time()
 
-    def active_time(self):
+    def get_active_time(self):
         return CorrectTimeFormat(self.time_interval).serialize_for_json()
 
     def get_activity(self):
         return {
             'active_tab': self.tab,
-            'active_sessions': [self.active_time()],
-            'last_active_session': self.active_time(),
+            'active_sessions': [self.get_active_time()],
+            'last_active_session': self.get_active_time(),
             'total_time': self.time_interval
         }
 
@@ -31,8 +31,8 @@ class ActivitiesStorage:
 
     @staticmethod
     def update_activity(activity, time_activity: Activity):
-        activity['active_sessions'].append(time_activity.active_time())
-        activity['last_active_session'] = time_activity.active_time()
+        activity['active_sessions'].append(time_activity.get_active_time())
+        activity['last_active_session'] = time_activity.get_active_time()
         activity['total_time'] += time_activity.time_interval
 
     def get_current_activities(self):
