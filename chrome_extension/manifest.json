@@ -1,7 +1,7 @@
 {
   "name": "CurrentURL",
-  "description": "Sends a current tab url to your server.",
-  "version": "1.2.2",
+  "description": "Sends a current tab url to your server",
+  "version": "1.2.3",
   "manifest_version": 2,
   "icons": {
     "16": "icon.png",
