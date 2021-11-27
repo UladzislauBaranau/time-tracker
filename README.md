@@ -1,5 +1,5 @@
 # Time Tracker: tracks the time you spent on websites
-The application that allows you to track the spent time on websites. 
+An application is written using Python, Flask, and JS.
 <br>Works with Google Chrome browser.
 
 ## Getting Started
@@ -18,16 +18,14 @@ $ pip3 install -U flask-cors
 If you don't need flask on your system use a virtual environment, [more information](https://flask.palletsprojects.com/en/1.1.x/installation/).
 
 ### Google Chrome Extension
-The description and detailed setup information [here](https://github.com/weastur/chrome_extension).
+Description and detailed setup information are [here](https://github.com/weastur/chrome_extension).
 
 ## How to use it
 To start tracking the time just launch the app:
 ```
 $ python3 main.py
 ```
- 
-Сurrent information about your actions is available both in the console and in the file `activities_info.json` created in directory with the application. After stopping the application (press `ctrl+c`), information about your activities will be updated in the same file. 
-You will get a information like this:
+Current information about your actions is available both in the console and in the file `activities_info.json` created in the directory with the app. After stopping the app (press `ctrl+c`), information about your activities will be updated in the same file. You will get information like this: 
 ```
 {
     "START_ACTIVITIES": "2021.04.13 15:00",
@@ -54,7 +52,7 @@ You will get a information like this:
     "STOP_ACTIVITIES": "2021.04.13 15:04"
 }
 ```
-To get accurate information about the last action open the new tab `chrome://newtab/` in browser before stopping.
+To get accurate information about the last action, open a new tab `chrome://newtab/` in the browser before stopping.
 
 ## License
 [MIT license](https://github.com/UladzislauBaranau/time-tracker/blob/master/LICENSE).
